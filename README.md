@@ -1,210 +1,216 @@
-California Housing Price Prediction
+# California Housing Price Prediction
 
-A comprehensive machine learning project developed for Mathematical Methods in Data Analysis and Machine Learning at Abdullah Gul University.
+A comprehensive machine learning project that predicts California housing prices using statistical learning methods and regression models implemented primarily from scratch with NumPy.
 
-This project predicts California housing prices using statistical learning techniques and compares the performance of:
+This project explores the complete machine learning workflow, including data preprocessing, feature engineering, model development, hyperparameter tuning, evaluation, and visualization. It compares Ordinary Least Squares (OLS), Ridge Regression, and Polynomial Ridge Regression to understand the impact of regularization and feature expansion on predictive performance.
 
-Ordinary Least Squares (OLS) Regression (Maximum Likelihood Estimation)
-Ridge Regression (Maximum A Posteriori Estimation)
-Polynomial Feature Expansion (Degree 2) with Ridge Regression
+---
 
-Unlike many machine learning projects that rely heavily on libraries such as Scikit-Learn, the core regression models in this implementation are built directly using mathematical formulations and linear algebra operations from NumPy.
+## Overview
 
-Project Objectives
+Housing price prediction is a classic regression problem that combines statistical analysis, machine learning, and feature engineering. This project uses the California Housing dataset to build and evaluate predictive models while demonstrating key concepts from mathematical methods in data analysis and machine learning.
 
-The main goals of this project are:
+The implementation focuses on understanding the mathematical foundations behind regression models rather than relying entirely on machine learning libraries.
 
-Perform exploratory data analysis on housing market data
-Clean and preprocess real-world datasets
-Engineer meaningful predictive features
-Implement regression models from scratch
-Apply regularization techniques to reduce overfitting
-Use cross-validation for hyperparameter tuning
-Compare model performance using multiple evaluation metrics
-Visualize model behavior and prediction quality
-Dataset
+---
 
-The project uses the California Housing Dataset, which contains demographic, geographic, and housing-related information collected from California census districts.
+## Features
 
-Features Include
-Median Income
-Housing Median Age
-Total Rooms
-Total Bedrooms
-Population
-Households
-Latitude
-Longitude
-Ocean Proximity
-Target Variable
-Median House Value
+* Exploratory Data Analysis (EDA)
+* Data Cleaning and Preprocessing
+* Feature Engineering
+* Train / Validation / Test Splitting
+* Feature Standardization
+* Ordinary Least Squares Regression (MLE)
+* Ridge Regression (MAP)
+* Cross-Validation for Hyperparameter Selection
+* Polynomial Feature Expansion (Degree 2)
+* Model Evaluation and Comparison
+* Publication-Quality Visualizations
 
-The target variable is log-transformed to reduce skewness and improve model performance.
+---
 
-Methodology
-1. Data Exploration
+## Dataset
 
-The project performs:
+The project uses the California Housing dataset containing demographic, geographic, and housing-related information from California census districts.
 
-Distribution analysis of housing prices
-Log-price distribution visualization
-Feature correlation analysis
-Income vs. housing value investigation
-2. Data Cleaning
+### Input Features
+
+* Longitude
+* Latitude
+* Housing Median Age
+* Total Rooms
+* Total Bedrooms
+* Population
+* Households
+* Median Income
+* Ocean Proximity
+
+### Target Variable
+
+* Median House Value
+
+To reduce skewness and improve model performance, the target variable is transformed using:
+
+```math
+log(1 + median_house_value)
+```
+
+---
+
+## Data Preprocessing
 
 The preprocessing pipeline includes:
 
-Handling missing values
-One-hot encoding categorical variables
-Creating engineered features
-Log transformation of housing prices
-Engineered Features
-Rooms per Household
-Bedrooms per Room
-Population per Household
-3. Train / Validation / Test Split
+### Missing Value Handling
 
-Dataset is divided into:
+Rows containing missing values in the `total_bedrooms` feature are removed.
 
-Dataset	Percentage
-Training	70%
-Validation	15%
-Testing	15%
+### Feature Engineering
 
-Random shuffling is performed using NumPy for reproducibility.
+Three additional features are created:
 
-4. Feature Standardization
+* Rooms per Household
+* Bedrooms per Room
+* Population per Household
 
-Features are standardized using training-set statistics only to prevent data leakage.
+### Categorical Encoding
 
-5. Ordinary Least Squares (MLE)
+The `ocean_proximity` feature is transformed using one-hot encoding.
 
-Implemented using the Normal Equation:
+### Feature Standardization
 
-θ
-MLE
-	​
+All numerical features are standardized using training-set statistics only to prevent data leakage.
 
-=(X
-T
-X)
-−1
-X
-T
-y
+---
 
-This serves as the baseline linear regression model.
+## Models Implemented
 
-6. Ridge Regression (MAP)
+### 1. Baseline Predictor
 
-Implemented using L2 regularization:
+A simple mean-value predictor used as a reference model.
 
-θ
-MAP
-	​
+### 2. Ordinary Least Squares (OLS)
 
-=(X
-T
-X+λI)
-−1
-X
-T
-y
+Implemented using the normal equation:
+
+```math
+\theta_{MLE} = (X^T X)^{-1} X^T y
+```
+
+This serves as the primary linear regression benchmark.
+
+### 3. Ridge Regression
+
+Ridge Regression introduces L2 regularization:
+
+```math
+\theta_{MAP} = (X^T X + \lambda I)^{-1} X^T y
+```
 
 Benefits include:
 
-Reduced overfitting
-Improved generalization
-More stable coefficient estimates
-7. Cross-Validation
+* Reduced overfitting
+* Improved generalization
+* More stable coefficient estimates
 
-The optimal regularization parameter λ is selected using:
+### 4. Polynomial Ridge Regression
 
-5-Fold Cross Validation
-Validation RMSE minimization
+Degree-2 polynomial features are generated to capture nonlinear relationships between variables.
 
-Search space:
+The expanded feature space includes:
 
+* Original features
+* Squared terms
+* Pairwise interaction terms
+
+The resulting model is then trained using Ridge Regression.
+
+---
+
+## Cross-Validation
+
+The regularization parameter λ is selected using:
+
+* 5-Fold Cross Validation
+* Validation RMSE minimization
+
+Search range:
+
+```text
 λ ∈ [10⁻⁴, 10³]
-8. Polynomial Feature Expansion
+```
 
-The project expands selected features to degree-2 polynomial space:
+This ensures that the chosen model balances bias and variance effectively.
 
-Original features
-Squared terms
-Pairwise interaction terms
+---
 
-This allows the model to capture nonlinear relationships in housing prices.
-
-Evaluation Metrics
+## Evaluation Metrics
 
 Model performance is measured using:
 
-Root Mean Squared Error (RMSE)
+### Root Mean Squared Error (RMSE)
 
-RMSE=
-n
-1
-	​
+Measures the average magnitude of prediction errors.
 
-∑
-i=1
-n
-	​
+### Mean Absolute Error (MAE)
 
-(y
-i
-	​
+Measures the average absolute prediction error.
 
-−
-y
-^
-	​
+### R² Score
 
-i
-	​
+Measures how much variance in the target variable is explained by the model.
 
-)
-2
-	​
+---
 
+## Visualizations Generated
 
-Mean Absolute Error (MAE)
+The project automatically generates and saves the following figures:
 
-Measures average prediction error magnitude.
+### Figure 1 — Exploratory Data Analysis
 
-Coefficient of Determination (R²)
+* Price distribution
+* Log-price distribution
+* Income vs. house value relationship
+* Correlation heatmap
 
-Measures the proportion of variance explained by the model.
+### Figure 2 — Cross-Validation Results
 
-Generated Visualizations
+* RMSE versus λ
 
-The project automatically creates and saves:
+### Figure 3 — Regularization Path
 
-Figure 1 — Exploratory Data Analysis
-Housing price distribution
-Log-price distribution
-Income vs price scatter plot
-Correlation heatmap
-Figure 2 — Cross Validation Results
-RMSE vs λ
-Figure 3 — Ridge Regularization Path
-Coefficient shrinkage across λ values
-Figure 4 — Predicted vs Actual Values
-OLS
-Ridge
-Polynomial Ridge
-Figure 5 — Residual Analysis
-Residual plots for all models
-Figure 6 — Learning Curve
-Training vs Validation RMSE
-Figure 7 — Model Comparison
-RMSE
-MAE
-R² comparison
-Figure 8 — Feature Importance
-Largest Ridge Regression coefficients
-Project Structure
+* Coefficient shrinkage as λ increases
+
+### Figure 4 — Predicted vs Actual Values
+
+* OLS
+* Ridge
+* Polynomial Ridge
+
+### Figure 5 — Residual Analysis
+
+* Residual distributions and patterns
+
+### Figure 6 — Learning Curve
+
+* Training vs validation RMSE
+
+### Figure 7 — Model Comparison
+
+* RMSE
+* MAE
+* R²
+
+### Figure 8 — Feature Importance
+
+* Largest Ridge Regression coefficients
+
+---
+
+## Project Structure
+
+```text
 project/
 │
 ├── data/
@@ -223,78 +229,99 @@ project/
 ├── analysis.py
 │
 └── README.md
-Installation
+```
+
+---
+
+## Installation
 
 Clone the repository:
 
+```bash
 git clone https://github.com/yourusername/california-housing-price-prediction.git
 
 cd california-housing-price-prediction
+```
 
-Install required packages:
+Install dependencies:
 
+```bash
 pip install numpy pandas matplotlib seaborn
-Usage
+```
 
-Place the California Housing dataset inside the data/ directory:
+---
 
+## Usage
+
+Place the dataset inside the `data/` directory:
+
+```text
 data/housing.csv
+```
 
 Run the analysis:
 
+```bash
 python analysis.py
+```
 
-All figures and evaluation results will be generated automatically.
+All visualizations will be saved automatically in the `figures/` directory.
 
-Key Learning Concepts
+---
+
+## Learning Outcomes
 
 This project demonstrates practical applications of:
 
-Linear Regression
-Maximum Likelihood Estimation (MLE)
-Maximum A Posteriori Estimation (MAP)
-Regularization
-Feature Engineering
-Cross Validation
-Model Selection
-Bias-Variance Tradeoff
-Polynomial Regression
-Statistical Learning Theory
-Technologies Used
-Python
-NumPy
-Pandas
-Matplotlib
-Seaborn
-Results
+* Linear Algebra
+* Statistical Learning
+* Regression Analysis
+* Maximum Likelihood Estimation (MLE)
+* Maximum A Posteriori Estimation (MAP)
+* Regularization Techniques
+* Cross Validation
+* Hyperparameter Tuning
+* Feature Engineering
+* Bias–Variance Tradeoff
+* Model Evaluation
 
-The project compares:
+---
 
-Baseline Mean Predictor
-OLS Regression
-Ridge Regression
-Polynomial Ridge Regression
+## Technologies Used
 
-Performance is evaluated using held-out test data to determine which approach generalizes best for housing price prediction.
+* Python
+* NumPy
+* Pandas
+* Matplotlib
+* Seaborn
 
-Future Improvements
+---
+
+## Future Improvements
 
 Potential extensions include:
 
-Lasso Regression
-Elastic Net Regularization
-Gradient Descent Optimization
-Random Forest Regressors
-Gradient Boosting Methods
-Neural Networks
-Geographic Feature Enrichment
-Automated Hyperparameter Optimization
-Author
+* Lasso Regression
+* Elastic Net Regression
+* Gradient Descent Optimization
+* Random Forest Regression
+* Gradient Boosting Methods
+* XGBoost
+* Neural Networks
+* Geographic Feature Enrichment
+* Automated Hyperparameter Optimization
 
-Raza Ur Rehman
-Bachelor's in Molecular Biology and Genetics
+---
+
+## Author
+
+**Raza Ur Rehman**
+
+Bachelor's Student in Molecular Biology and Genetics
 Abdullah Gul University
 
-License
+---
 
-This project is released under the MIT License. Feel free to use, modify, and extend it for educational and research purposes.
+## License
+
+This project is licensed under the MIT License and is available for educational, academic, and research purposes.
